@@ -14,7 +14,6 @@ def create_plots():
 
     df = pd.read_csv(csv_path)
 
-    # Style settings
     plt.rcParams.update({
         'font.size': 11,
         'axes.labelsize': 12,
@@ -26,9 +25,6 @@ def create_plots():
         'figure.autolayout': True
     })
 
-    # =========================================================================
-    # PLOT 1: Edit Distance Operations on Log Scale (Recursive vs DP)
-    # =========================================================================
     fig, ax = plt.subplots(figsize=(8, 5))
     df_ed_small = df[(df['family'] == 'EditDistance') & (df['n'] <= 14)]
 
@@ -52,13 +48,9 @@ def create_plots():
     plt.close(fig)
     print(f"Saved: {plot1_path}")
 
-    # =========================================================================
-    # PLOT 2: Edit Distance DP Scaling on Large N (Table vs TwoRows)
-    # =========================================================================
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
     df_ed_large = df[(df['family'] == 'EditDistance') & (df['n'] >= 500)]
 
-    # Subplot 2A: Execution Time vs N
     for alg in ['Table', 'TwoRows']:
         for inp in ['random', 'worst_case_mismatch']:
             sub = df_ed_large[(df_ed_large['algorithm'] == alg) & (df_ed_large['input_type'] == inp)]
@@ -74,7 +66,6 @@ def create_plots():
     ax1.grid(True, ls="--", alpha=0.6)
     ax1.legend()
 
-    # Subplot 2B: Cell Operations vs N^2 (Verification of O(n*m))
     for alg in ['Table', 'TwoRows']:
         sub = df_ed_large[(df_ed_large['algorithm'] == alg) & (df_ed_large['input_type'] == 'random')]
         if not sub.empty:
@@ -92,9 +83,6 @@ def create_plots():
     plt.close(fig)
     print(f"Saved: {plot2_path}")
 
-    # =========================================================================
-    # PLOT 3: String Search Comparisons on Worst-Case Input (Ratio & Absolute)
-    # =========================================================================
     fig, ax = plt.subplots(figsize=(8.5, 5.5))
     df_ss_worst = df[(df['family'] == 'StringSearch') & (df['input_type'] == 'worst_case_pathological')]
 
@@ -111,7 +99,6 @@ def create_plots():
         ax.grid(True, ls="--", alpha=0.6)
         ax.legend(loc="upper left")
 
-        # Annotate ratio at max size
         max_n = naive_worst['n'].max()
         n_val = naive_worst[naive_worst['n'] == max_n]['counter_value'].values[0]
         k_val = kmp_worst[kmp_worst['n'] == max_n]['counter_value'].values[0]
@@ -126,9 +113,6 @@ def create_plots():
     plt.close(fig)
     print(f"Saved: {plot3_path}")
 
-    # =========================================================================
-    # PLOT 4: String Search Wall-Clock Time (Random vs Pathological Worst-Case)
-    # =========================================================================
     fig, ax = plt.subplots(figsize=(8.5, 5.5))
     df_ss = df[df['family'] == 'StringSearch']
 

@@ -3,10 +3,6 @@ package com.assignment4.search;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Naive (brute-force) substring search algorithm.
- * Checks all possible starting positions in the text character by character.
- */
 public class NaiveStringSearch implements StringSearch {
 
     private long comparisonsCount = 0;

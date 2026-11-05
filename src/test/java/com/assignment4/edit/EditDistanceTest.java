@@ -71,7 +71,7 @@ public class EditDistanceTest {
         String chars = "abcdef";
 
         for (int test = 0; test < 100; test++) {
-            int lenA = rng.nextInt(8); // lengths 0..7 to keep recursion instantaneous
+            int lenA = rng.nextInt(8);
             int lenB = rng.nextInt(8);
 
             StringBuilder sbA = new StringBuilder();

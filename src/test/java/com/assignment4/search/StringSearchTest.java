@@ -87,14 +87,14 @@ public class StringSearchTest {
     @DisplayName("Section 5: 100 random texts cross-validation (Naive and KMP return same list)")
     void testHundredRandomTextsAgreement() {
         Random rng = new Random(1337);
-        String alphabet = "ABC"; // Small alphabet to ensure plenty of occurrences & overlaps
+        String alphabet = "ABC";
 
         NaiveStringSearch naive = new NaiveStringSearch();
         KmpStringSearch kmp = new KmpStringSearch();
 
         for (int test = 0; test < 100; test++) {
-            int textLen = 50 + rng.nextInt(151); // 50..200
-            int patLen = 1 + rng.nextInt(6);     // 1..6
+            int textLen = 50 + rng.nextInt(151);
+            int patLen = 1 + rng.nextInt(6);
 
             StringBuilder sbText = new StringBuilder();
             for (int i = 0; i < textLen; i++) {

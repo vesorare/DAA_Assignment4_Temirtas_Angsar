@@ -18,10 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Benchmark runner that executes experiments for Edit Distance and String Search algorithms.
- * Records internal counters and median execution times (over 5 runs) to results/results.csv.
- */
 public class BenchmarkRunner {
 
     private static final long SEED = 42L;
@@ -42,21 +38,16 @@ public class BenchmarkRunner {
         File csvFile = new File("results/results.csv");
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile))) {
-            // Write CSV header
             writer.println("algorithm,family,input_type,n,m,time_ms,counter_name,counter_value");
 
             DataGenerator gen = new DataGenerator(SEED);
 
-            // Warmup JIT
             warmup(gen);
 
-            // Run Edit Distance Small Experiment (comparing Recursive, Table, TwoRows)
             runEditDistanceSmall(writer, gen);
 
-            // Run Edit Distance Large Experiment (Table vs TwoRows scaling)
             runEditDistanceLarge(writer, gen);
 
-            // Run String Search Experiment (Naive vs KMP)
             runStringSearch(writer, gen);
 
             System.out.println("Benchmark successfully finished. Data written to " + csvFile.getAbsolutePath());
@@ -101,13 +92,10 @@ public class BenchmarkRunner {
                     b = gen.repeatedCharString(n, 'b');
                 }
 
-                // Benchmarking Recursive
                 benchmarkEditDistance(writer, new RecursiveEditDistance(), "Recursive", inputType, a, b, n);
 
-                // Benchmarking Table
                 benchmarkEditDistance(writer, new TableEditDistance(), "Table", inputType, a, b, n);
 
-                // Benchmarking TwoRows
                 benchmarkEditDistance(writer, new TwoRowsEditDistance(), "TwoRows", inputType, a, b, n);
             }
         }
@@ -131,10 +119,8 @@ public class BenchmarkRunner {
                     b = gen.repeatedCharString(n, 'b');
                 }
 
-                // Table
                 benchmarkEditDistance(writer, new TableEditDistance(), "Table", inputType, a, b, n);
 
-                // TwoRows
                 benchmarkEditDistance(writer, new TwoRowsEditDistance(), "TwoRows", inputType, a, b, n);
             }
         }
@@ -183,10 +169,8 @@ public class BenchmarkRunner {
                     pattern = gen.searchWorstCasePattern(patternSize);
                 }
 
-                // Naive
                 benchmarkStringSearch(writer, new NaiveStringSearch(), "Naive", inputType, text, pattern, n, patternSize);
 
-                // KMP
                 benchmarkStringSearch(writer, new KmpStringSearch(), "KMP", inputType, text, pattern, n, patternSize);
             }
         }
